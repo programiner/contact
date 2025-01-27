@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Ajaz Ahmed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+     :root {
+            --bg-color: #f8f9fa;
+            --text-color: #2d2d2d;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(0, 0, 0, 0.05);
+            --primary-color: #6c63ff;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --card-bg: rgba(30, 30, 30, 0.9);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--card-border);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;            text-decoration: none;
+
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+       
+        .logo:hover{
+            color: #0066b5;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            position: relative;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 80%;
+            left: 10%;
+        }
+
+        /* Adjust contact-hero margin */
+        #contact-hero {
+            margin-top: 100px;
+        }
+
+        /* Rest of existing styles remain the same */
+        /* ... (keep all previous styles from original code) ... */
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+            .logo{
+                display: none;
+
+            }
+            .logo {
+                font-size: 1.2rem;
+            }
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.8rem 1.8rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 2rem;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .theme-switcher {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .theme-toggle {
+            width: 3rem;
+            height: 1.5rem;
+            background: var(--card-border);
+            border-radius: 1rem;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            width: 1.2rem;
+            height: 1.2rem;
+            background: var(--primary-color);
+            border-radius: 50%;
+            top: 0.15rem;
+            left: 0.15rem;
+            transition: var(--transition);
+        }
+
+        [data-theme="dark"] .theme-toggle::after {
+            transform: translateX(1.5rem);
+        }
+
+        #contact-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-hero-content h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-hero-content p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+
+        #contact-section {
+            padding: 4rem 0;
+        }
+
+        .contact-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: 1rem;
+            border: 1px solid var(--card-border);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .contact-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .contact-details h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+
+        #contact-form {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--card-border);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-color);
+            border: 1px solid var(--card-border);
+            border-radius: 0.5rem;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+        }
+
+        footer {
+            background: var(--card-bg);
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .logo{
+                display: none;
+
+            }
+            
+            .contact-hero-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <header>
+        <nav class="container">
+            <a  href="#contact-hero" class="logo">Contact</a>
+
+            <div class="nav-links">
+                <a href="https://programiner.github.io/">Home</a>
+                <a href="https://programiner.github.io/portfolio/ajaz.html">About</a>
+                <a href="https://github.com/programiner/">GitHub</a>
+                <div class="theme-toggle" onclick="toggleTheme()"></div>
+            </div>
+        </nav>
+    </header>
+
+
+    <section id="contact-hero">
+        <div class="container">
+            <div class="contact-hero-content">
+                <h1>Get in Touch</h1>
+                <p>Have a project in mind or just want to connect? Let's talk!</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-section">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/pdfdekhoapp.appspot.com/o/%E2%80%94Pngtree%E2%80%94india%20flag%20transparent%20watercolor%20painted_5331382.png?alt=media&token=65188538-5158-423e-8eed-b4fc5296286f" class="contact-icon" alt="Location">
+                        <div class="contact-details">
+                            <h3>Based in India</h3>
+                            <p>Open to remote opportunities</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/pdfdekhoapp.appspot.com/o/gmail.png?alt=media&token=157f84b5-cc4b-4ddb-8d8d-db50ab1e6288" class="contact-icon" alt="Email">
+                        <div class="contact-details">
+                            <h3>Email Me</h3>
+                            <p>teamprograminer@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/pdfdekhoapp.appspot.com/o/mobile.png?alt=media&token=2e598bf7-f278-4d99-872f-7fce39f8e497" class="contact-icon" alt="Phone">
+                        <div class="contact-details">
+                            <h3>Call Me</h3>
+                            <p>+91 9086903002</p>
+                        </div>
+                    </div>
+                </div>
+        
+            
+                <form id="contact-form" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Ajaz Ahmed. All rights reserved</p>
+            <div class="social-links">
+                <a href="https://github.com/programiner" target="_blank">GitHub</a>
+                <a href="https://instagram.com/ig.ajaz" target="_blank">Instagram</a>
+                <a href="https://twitter.com/teamprograminer" target="_blank">Twitter</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Existing theme and form handling code
+        function toggleTheme() {
+            const body = document.body;
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+
+        // Form Handling
+        function handleSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            const subject = `Message from ${name}`;
+            const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0AMessage: ${message}`;
+            
+            window.location.href = `mailto:developer.ajazahmed@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        // Add scroll animation for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
