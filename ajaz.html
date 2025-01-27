@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Ajaz Ahmed</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+
     <style>
-     :root {
+        /* Your existing CSS styles */
+        :root {
             --bg-color: #f8f9fa;
             --text-color: #2d2d2d;
             --card-bg: rgba(255, 255, 255, 0.9);
@@ -54,13 +60,13 @@
         .logo {
             font-family: 'Poppins', sans-serif;
             font-size: 1.5rem;
-            font-weight: 700;            text-decoration: none;
-
+            font-weight: 700;
+            text-decoration: none;
             color: var(--text-color);
             transition: var(--transition);
         }
-       
-        .logo:hover{
+
+        .logo:hover {
             color: #0066b5;
             cursor: pointer;
         }
@@ -112,19 +118,21 @@
             .nav-links {
                 gap: 1rem;
             }
-            
+
             .nav-links a {
                 font-size: 0.9rem;
                 padding: 0.5rem;
             }
-            .logo{
-                display: none;
 
+            .logo {
+                display: none;
             }
+
             .logo {
                 font-size: 1.2rem;
             }
         }
+
         * {
             margin: 0;
             padding: 0;
@@ -325,32 +333,124 @@
             .contact-wrapper {
                 grid-template-columns: 1fr;
             }
-            .logo{
-                display: none;
 
+            .logo {
+                display: none;
             }
-            
+
             .contact-hero-content h1 {
                 font-size: 2.5rem;
             }
+        } /* Notifications */
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1.5rem 2rem;
+            border-radius: 0.5rem;
+            color: white;
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .notification.success {
+            background: #4CAF50;
+        }
+
+        .notification.error {
+            background: #f44336;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(108, 99, 255, 0.1);
+            display: none;
+            z-index: 1001;
+        }
+
+        .progress-bar-inner {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0;
+            transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar-inner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -200px;
+            width: 200px;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                transparent 100%
+            );
+            animation: progressIndeterminate 2s infinite;
+        }
+
+        @keyframes progressIndeterminate {
+            0% { left: -200px }
+            100% { left: 100% }
         }
     </style>
 </head>
 <body data-theme="light">
     <header>
         <nav class="container">
-            <a  href="#contact-hero" class="logo">Contact</a>
-
+            <a href="#contact-hero" class="logo">Contact</a>
             <div class="nav-links">
                 <a href="https://programiner.github.io/">Home</a>
                 <a href="https://programiner.github.io/portfolio/ajaz.html">About</a>
                 <a href="https://github.com/programiner/">GitHub</a>
+                
                 <div class="theme-toggle" onclick="toggleTheme()"></div>
             </div>
         </nav>
     </header>
+    <div class="progress-bar">
+        <div class="progress-bar-inner"></div>
+    </div>
 
+    <!-- Notifications -->
+    <div class="notification success">
+        <svg class="notification-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+        </svg>
+        <span>Message sent successfully!</span>
+    </div>
 
+    <div class="notification error">
+        <svg class="notification-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        <span>Error sending message. Please try again.</span>
+    </div>
     <section id="contact-hero">
         <div class="container">
             <div class="contact-hero-content">
@@ -386,8 +486,7 @@
                         </div>
                     </div>
                 </div>
-        
-            
+
                 <form id="contact-form" onsubmit="handleSubmit(event)">
                     <div class="form-group">
                         <input type="text" id="name" placeholder="Your Name" required>
@@ -414,8 +513,72 @@
             </div>
         </div>
     </footer>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXtp99MUwbNqNWtT5VNKvV2f9uFbHSNSo",
+            authDomain: "programiner-88a95.firebaseapp.com",
+            projectId: "programiner-88a95",
+            storageBucket: "programiner-88a95.firebasestorage.app",
+            messagingSenderId: "181102269787",
+            appId: "1:181102269787:web:99cf7bc1c20f188601b67e",
+            measurementId: "G-D3Z430V1SE"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        window.handleSubmit = async (e) => {
+            e.preventDefault();
+            
+            const btn = e.target.querySelector('button[type="submit"]');
+            const progressBar = document.querySelector('.progress-bar');
+            const successNotification = document.querySelector('.notification.success');
+            const errorNotification = document.querySelector('.notification.error');
+
+            // Disable button and show progress
+            btn.disabled = true;
+            progressBar.style.display = 'block';
+
+            try {
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+
+                await addDoc(collection(db, "CONTACT"), {
+                    Name: name,
+                    Email: email,
+                    Message: message,
+                    Timestamp: new Date()
+                });
+
+                // Show success notification
+                successNotification.classList.add('show');
+                document.getElementById('contact-form').reset();
+                
+                // Hide notification after 3 seconds
+                setTimeout(() => {
+                    successNotification.classList.remove('show');
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Error saving message: ', error);
+                errorNotification.classList.add('show');
+                setTimeout(() => {
+                    errorNotification.classList.remove('show');
+                }, 3000);
+            } finally {
+                // Re-enable button and hide progress
+                btn.disabled = false;
+                progressBar.style.display = 'none';
+            }
+        }
+    </script>
     <script>
-        // Existing theme and form handling code
+
+        // Theme Management
         function toggleTheme() {
             const body = document.body;
             const isDark = body.getAttribute('data-theme') === 'dark';
@@ -426,29 +589,6 @@
         // Initialize theme
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.body.setAttribute('data-theme', savedTheme);
-
-        // Form Handling
-        function handleSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-            
-            const subject = `Message from ${name}`;
-            const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0AMessage: ${message}`;
-            
-            window.location.href = `mailto:developer.ajazahmed@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        }
-
-        // Add scroll animation for nav links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
     </script>
 </body>
 </html>
